@@ -24,9 +24,3 @@ You can try it like this:
 - Click the "Make request" button.
 - You should see a JSON response from Wikidata.
 - If you run `tail /var/log/nginx/proxy-upstream-access.log`, you should see a log entry for the proxy request you made that includes the destination url that the proxy used.
-
-
-
-Then:
-
-    make update-local
