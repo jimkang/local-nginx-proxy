@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Thing that makes an XHR and needs a CORS proxy</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <h1>Thing that makes an http request that needs a CORS proxy</h1>
+
+    <div class="control-pane">
+      <button id="run-button">Make request</button>
+    </div>
+
+    <h2>Request response</h2>
+
+    <div id="status"></div>
+
+    <pre id="response"></pre>
+
+    <div id="error"></div>
+    <script>
+      var buttonEl = document.getElementById('run-button');
+      var statusEl = document.getElementById('status');
+      var responseEl = document.getElementById('response');
+      var errorEl = document.getElementById('error');
+
+      buttonEl.addEventListener('click', runRequest);
+
+      async function runRequest() {
+        try {
+          //const directURL = 'https://www.wikidata.org/w/api.php?action=wbgetentities&props=labels|sitelinks|claims&format=json&ids=Q192843';
+          const url = 'http://localhost/proxy/w/api.php?action=wbgetentities&props=labels|sitelinks|claims&format=json&ids=Q192843';
+          let res = await fetch(url, { mode: 'cors' });
+          if (!res.ok) {
+            return;
+          }
+          statusEl.textContent = res.status;
+          let entityResult = await res.json();
+          responseEl.textContent = JSON.stringify(entityResult, null, 2);
+        } catch (error) {
+          errorEl.textContent = error.message;
+        }
+      }
+    </script>
+</body>
+</html>
